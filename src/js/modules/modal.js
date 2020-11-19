@@ -40,7 +40,7 @@ function modal() {
     showModalByTime('.popup', 60000);
 
     bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
-    bindModal('.phone_link', '.popup', '.popup_engineer .popup_close');
+    bindModal('.phone_link', '.popup', '.popup_dialog .popup_close');
 }
 
 export default modal;
