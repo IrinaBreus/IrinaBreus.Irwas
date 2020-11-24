@@ -1,13 +1,11 @@
-const forms = () => {
+import checkNumInputs from './checkNumInputs';
+
+const forms = (state) => {
     const form = document.querySelectorAll('form'),
           inputs = document.querySelectorAll('input'),
-          inputsPhone = document.querySelectorAll('input[name="user_phone"]');
+          modal = document.querySelectorAll('[data-modal]');
 
-    inputsPhone.forEach(num => {
-        num.addEventListener('input', () => {
-            num.value = num.value.replace(/\D/, '');
-        });
-    });
+    checkNumInputs('input[name="user_phone"]');
 
     const message = {
         loading: 'Отправка данных',
@@ -35,6 +33,11 @@ const forms = () => {
            item.append(statusMessage);
 
            const formData = new FormData(item);
+           if (item.getAttribute('data-calc') === "end") {
+               for (let key in state) {
+                   formData.append(key, state[key]);
+               }
+           }
 
            postData('assets/server.php', formData)
            .then(res => {
@@ -46,10 +49,15 @@ const forms = () => {
                inputs.forEach(input => {
                    input.value = '';
                });
-
+               
                setTimeout(() => {
                    statusMessage.remove();
-               }, 3000);
+                   modal.forEach(item => {
+                       item.style.display = 'none';
+                       document.body.style.overflow = '';
+                   });
+                   
+               }, 2000);
            });
        });
    });
