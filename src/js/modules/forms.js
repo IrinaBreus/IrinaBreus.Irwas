@@ -2,8 +2,7 @@ import checkNumInputs from './checkNumInputs';
 
 const forms = (state) => {
     const form = document.querySelectorAll('form'),
-          inputs = document.querySelectorAll('input'),
-          modal = document.querySelectorAll('[data-modal]');
+          inputs = document.querySelectorAll('input');
 
     checkNumInputs('input[name="user_phone"]');
 
@@ -24,10 +23,12 @@ const forms = (state) => {
         return await res.text();
     };
 
+
     form.forEach(item => {
        item.addEventListener('submit', (e) => {
            e.preventDefault();
 
+           
            const statusMessage = document.createElement('div');
            statusMessage.classList.add('status');
            item.append(statusMessage);
@@ -36,11 +37,12 @@ const forms = (state) => {
            if (item.getAttribute('data-calc') === "end") {
                for (let key in state) {
                    formData.append(key, state[key]);
-               }
+                }
            }
-
-           postData('assets/server.php', formData)
+           
+            postData('assets/server.php', formData)
            .then(res => {
+                
                console.log(res);
                statusMessage.textContent = message.success;
            }).catch(() => {
@@ -48,19 +50,43 @@ const forms = (state) => {
            }).finally(() => {
                inputs.forEach(input => {
                    input.value = '';
+                   input.checked = false;
                });
-               
+               clearModal();
+               document.querySelector('.popup_calc_button').setAttribute('disabled', true); 
+               document.querySelector('.popup_calc_profile_button').setAttribute('disabled', true); 
+                         
                setTimeout(() => {
                    statusMessage.remove();
-                   modal.forEach(item => {
+                   document.querySelectorAll('[data-modal]').forEach(item => {
                        item.style.display = 'none';
                        document.body.style.overflow = '';
                    });
-                   
                }, 2000);
+              
            });
        });
    });
+
+   function clearModal() {
+       const tabs = document.querySelectorAll('.balcon_icons_img'),
+             content = document.querySelectorAll('.big_img > img'),
+             type = document.querySelector('select');
+
+        tabs.forEach(item => {
+            item.classList.remove('do_image_more');
+        });
+        content.forEach(item => {
+            item.style.display = 'none';
+        });
+
+        tabs[0].classList.add('do_image_more');
+        content[0].style.display = 'inline-block';
+        
+        type.value = "tree";
+   }
+
+   
 };
 
 export default forms;

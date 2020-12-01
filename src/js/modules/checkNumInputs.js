@@ -1,11 +1,11 @@
-const checkNamInputs = (selector) => {
-    const numInputs = document.querySelectorAll(selector);
+const checkNumInputs = (selector) => {
+    const numInput = document.querySelectorAll(selector);
 
-    numInputs.forEach(num => (
-        num.addEventListener('input', () => {
-            num.value = num.value.replace(/\D/, '');
-        })
-    ));
+    numInput.forEach(item => {
+        item.addEventListener('input', () => {
+            item.value = item.value.replace(/\D/, '');
+        });
+    });
 };
 
-export default checkNamInputs;
+export default checkNumInputs;

@@ -994,6 +994,7 @@ textarea:focus {
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   width: 40rem;
+  min-height: 573px;
   padding: 1rem 5rem 4rem;
   background-color: #ffffff;
   /*	label {

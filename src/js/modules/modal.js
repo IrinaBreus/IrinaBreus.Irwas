@@ -5,19 +5,27 @@ function modal() {
               close = document.querySelector(closeSelector),
               windows = document.querySelectorAll('[data-modal');
 
-        
 
         trigger.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 if (e.target) {
                     e.preventDefault();
                 }
+
+               
                 closeAllWindows();
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+                openModal();
                 
             });
         });
+
+        
+        const openModal = () => {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            clearInterval(timerId);
+        };
+
         function closeAllWindows() {
             windows.forEach(item => {
                 item.style.display = 'none';
@@ -42,15 +50,12 @@ function modal() {
         });
     }
 
-    function showModalByTime(selector, time) {
-        setTimeout(() => {
-            document.querySelector(selector).style.display = 'block';
+        const timerId = setTimeout(() => {
+            document.querySelector('.popup').style.display = 'block';
             document.body.style.overflow = 'hidden';
-        }, time);
-    }
+        }, 60000);
 
-    showModalByTime('.popup', 60000);
-
+    
     bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
     bindModal('.phone_link', '.popup', '.popup_dialog .popup_close');
     bindModal('.glazing_price_btn', '.popup_calc', '.popup_calc_close');
