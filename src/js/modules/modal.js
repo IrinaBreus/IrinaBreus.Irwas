@@ -1,9 +1,12 @@
+import calcScroll from './scroll';
+
 function modal() {
     function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
         const trigger = document.querySelectorAll(triggerSelector),
               modal = document.querySelector(modalSelector),
               close = document.querySelector(closeSelector),
-              windows = document.querySelectorAll('[data-modal');
+              windows = document.querySelectorAll('[data-modal'),
+              scroll = calcScroll();
 
 
         trigger.forEach(btn => {
@@ -23,6 +26,7 @@ function modal() {
         const openModal = () => {
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            document.body.style.marginRight = `${scroll}px`;
             clearInterval(timerId);
         };
 
@@ -31,11 +35,13 @@ function modal() {
                 item.style.display = 'none';
             });
             document.body.style.overflow = '';
+            document.body.style.marginRight = `0px`;
         }
 
         function closeModal() {
             modal.style.display = 'none';
             document.body.style.overflow = '';
+            document.body.style.marginRight = `0px`;
             closeAllWindows();
         }
 
@@ -48,13 +54,16 @@ function modal() {
                 closeModal();
             }
         });
+
+       
     }
 
-        const timerId = setTimeout(() => {
-            document.querySelector('.popup').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }, 60000);
+    const timerId = setTimeout(() => {
+        document.querySelector('.popup').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }, 60000);
 
+    
     
     bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
     bindModal('.phone_link', '.popup', '.popup_dialog .popup_close');
